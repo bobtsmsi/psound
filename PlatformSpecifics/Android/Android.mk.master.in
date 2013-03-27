@@ -1,0 +1,9 @@
+#ANDROID ROOT MAKEFILE
+
+LOCAL_PATH := $(call my-dir)
+PSOUND_ROOT := $(LOCAL_PATH)
+
+PSOUND_INCLUDE := $(PSOUND_ROOT)/include
+OSG_INCLUDE := @OSG_INCLUDE@
+ 
+include src/Android.mk
