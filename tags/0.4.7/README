@@ -1,0 +1,38 @@
+//! @file README
+//! @author Rocco Martino
+
+/*! @mainpage pSound
+
+
+
+
+@section hello_section  Hello my friend,
+I give you this software under the terms of the GNU LGPL.\n
+I hope you appreciate it and have a nice day.\n
+\n
+\n
+\n
+\n
+The purpose of this software is to simplify the interaction between the OpenAL
+API and the OpenSceneGraph transforming conventions.\n
+Once per frame, each pSound::Source computes its own transformation in the
+model-view reference frame. This works fine as long as the listener has
+identity matrix, so the Listener singleton should never be accessed.\n
+There are two examples in the "examples" folder.\n
+\n
+\n
+Requires OpenAL, freeALUT and OSG
+\n
+\n
+\n
+\n
+Source code: http://code.google.com/p/psound/
+Mailing list: https://groups.google.com/group/psound
+\n
+\n
+Thank you for reading,\n
+Martino \n
+\n
+
+
+*/

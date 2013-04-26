@@ -1,0 +1,241 @@
+/*!
+ * @file Buffer
+ * @author Rocco Martino
+ */
+/***************************************************************************
+ *   Copyright (C) 2010 - 2013 by Rocco Martino                            *
+ *   martinorocco@gmail.com                                                *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU Lesser General Public License for more details.                   *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+#ifndef _PSOUND_BUFFER_HPP
+#define _PSOUND_BUFFER_HPP
+
+
+
+
+/* ======================================================================= */
+#include <osg/Object>
+
+#ifdef WIN32
+    #include <al.h>
+#else
+    #include <AL/al.h>
+#endif
+/* ======================================================================= */
+
+
+
+
+namespace pSound
+{
+
+
+
+
+/* ======================================================================= */
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+/* ....................................................................... */
+//! Encapsulates an OpenAL buffer
+/*!
+ * Only accepts mono or stereo format with 8 or 16 bits per sample
+ */
+class OSG_EXPORT Buffer: public osg::Object
+{
+/* ======================================================================= */
+public:
+             Buffer(void) ;
+             Buffer(const Buffer& other, const osg::CopyOp& copyop=osg::CopyOp::SHALLOW_COPY) ;
+
+             Buffer(    unsigned short int  bits_per_sample,
+                        unsigned int        sample_rate,
+                        unsigned short int  num_channels,
+                        unsigned int        data_size,
+                        void*               data) ;
+
+protected:
+    virtual ~Buffer(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    META_Object(pSound, Buffer) ;
+/* ======================================================================= */
+
+
+
+
+
+
+
+
+
+/* ======================================================================= */
+public:
+    //! This method uses memcpy to copy the memory pointed by "data"
+    void    set(    unsigned short int  bits_per_sample,
+                    unsigned int        sample_rate,
+                    unsigned short int  num_channels,
+                    unsigned int        data_size,
+                    void*               data) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    //! Get the number of bits per sample
+    inline unsigned short int   getBitsPerSample(void) const ;
+
+
+    //! Get the sampling frequency
+    inline unsigned int         getFrequency(void) const ;
+
+
+    //! Get the number of channels
+    inline unsigned short int   getNumChannels(void) const ;
+
+
+    //! Get the total size of the memory allocated to data
+    inline unsigned int         getDataSize(void) const ;
+
+
+    //! Get the data
+    inline void*                getData(void) const ;
+
+    //! Get the data and set the data pointer to NULL
+    inline void*                releaseData(void) ;
+
+
+    //! Get the ALBuffer
+    inline ALuint               getBuffer(void) const ;
+
+
+    //! Get the file name. This could be not automatically stored
+    inline const std::string&   getSoundFileName(void) const ;
+
+    //! Set the file name
+    inline void     setSoundFileName(const std::string& file_name) ;
+
+
+    //! Return true if the buffer is ok
+    inline bool                 getBufferReady(void) const ;
+
+    //! Get the sound duration in seconds
+    inline float                getDuration(void) const ;
+
+    //! Free m_data field
+    inline void                 freeData(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    //! Set the number of bits per sample (set m_dirty)
+    inline void     setBitsPerSample(unsigned short int bps) ;
+
+    //! Set the sampling freuency (set m_dirty)
+    inline void     setFrequency(unsigned int freq) ;
+
+    //! Set the number of channels (set m_dirty)
+    inline void     setNumChannels(unsigned short int n) ;
+
+    //! Set the data size in bytes (set m_dirty)
+    inline void     setDataSize(unsigned int s) ;
+
+    //! Free previous m_data, then copy the pointer (set m_dirty)
+    inline void     setData(void* d) ;
+
+    //! If true, free m_data after alBufferData. Def: false
+    inline void     setReleaseMemoryAfterApply(bool release) ;
+
+    //! If true, free m_data after alBufferData. Def: false
+    inline bool     getReleaseMemoryAfterApply(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    inline void     computeDuration(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    //! This calls alBufferData. (reset m_dirty)
+    /*!
+     * It fails if the format is not mono or stereo at 8 or 16 bits.
+     * Does nothing if m_dirty is false
+     */
+    bool    initBuffer(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    ALuint      m_buffer ;
+
+    unsigned short int      m_bits_per_sample ;
+    unsigned short int      m_num_channels ;
+    unsigned int            m_sample_rate ;
+
+    unsigned int            m_data_size ;
+    void*                   m_data ;
+
+    float                   m_duration ;
+
+    std::string             m_file_name ;
+
+    bool                    m_dirty ;
+
+    bool                    m_release_data ;
+/* ======================================================================= */
+} ;
+/* ....................................................................... */
+/* ======================================================================= */
+
+
+
+
+} // namespace pSound
+
+
+
+
+#include "Buffer.inl"
+
+
+
+
+#endif /* _PSOUND_BUFFER_HPP */

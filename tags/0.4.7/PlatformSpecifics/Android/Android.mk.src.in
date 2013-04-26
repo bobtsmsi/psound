@@ -1,0 +1,16 @@
+#ANDROID makefile in src
+
+
+ORIG_LOCAL_PATH := $(LOCAL_PATH)
+
+
+LOCAL_PATH := $(call my-dir)
+SRC_ROOT := $(LOCAL_PATH)
+
+include $(LOCAL_PATH)/pSound/Android.mk
+include $(LOCAL_PATH)/osgWrappers/Android.mk
+
+
+
+LOCAL_PATH := $(ORIG_LOCAL_PATH)
+

@@ -1,0 +1,17 @@
+#ANDROID makefile in src
+
+
+ORIG_LOCAL_PATH := $(LOCAL_PATH)
+
+
+
+LOCAL_PATH := $(call my-dir)
+SRC_ROOT := $(LOCAL_PATH)
+
+include $(LOCAL_PATH)/deprecated-dotosg/pSound/Android.mk
+
+include $(LOCAL_PATH)/serializers/pSound/Android.mk
+
+
+
+LOCAL_PATH := $(ORIG_LOCAL_PATH)
