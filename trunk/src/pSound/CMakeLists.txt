@@ -36,6 +36,13 @@ SET(TARGET_SRC
 
 
 
+IF( WIN32 )
+    ADD_DEFINITIONS( "/wd4250" )
+ENDIF( WIN32 )
+
+
+
+
 SET( MODULE_LINK_LIBRARIES_GNU "osgDB openal alut vorbisfile" )
 SET( MODULE_LINK_LIBRARIES_WIN "osgDB osg OpenThreads opengl32 OpenAL32 alut" )
 
