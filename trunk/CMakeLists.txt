@@ -133,9 +133,9 @@ ENDIF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
 
 
 IF( WIN32 )
-    SET(OSG_INCLUDE "C:\\Program Files\\OpenSceneGraph\\include" CACHE PATH "OSG headers")
-    SET(OPENAL_INCLUDE "C:\\Program Files\\OpenAL 1.1 SDK\\include" CACHE PATH "OpenAL headers")
-    SET(FREEALUT_INCLUDE "C:\\Program Files\\freealut-1.1.0-bin\\include" CACHE PATH "FreeALUT headers")
+    SET(OSG_INCLUDE "$ENV{PROGRAMFILES}\\OpenSceneGraph\\include" CACHE PATH "OSG headers")
+    SET(OPENAL_INCLUDE "$ENV{PROGRAMFILES}\\OpenAL 1.1 SDK\\include" CACHE PATH "OpenAL headers")
+    SET(FREEALUT_INCLUDE "$ENV{PROGRAMFILES}\\freealut-1.1.0-bin\\include" CACHE PATH "FreeALUT headers")
 
 ELSE( WIN32 )
 
@@ -177,9 +177,9 @@ MESSAGE(STATUS "FreeALUT include: ${FREEALUT_INCLUDE}")
 
 
 IF( WIN32 )
-    SET(OSG_LIBRARIES "C:\\Program Files\\OpenSceneGraph\\lib" CACHE PATH "OSG libraries")
-    SET(OPENAL_LIBRARIES "C:\\Program Files\\OpenAL 1.1 SDK\\libs\\Win32" CACHE PATH "OpenAL libraries")
-    SET(FREEALUT_LIBRARIES "C:\\Program Files\\freealut-1.1.0-bin\\lib" CACHE PATH "FreeALUT libraries")
+    SET(OSG_LIBRARIES "$ENV{PROGRAMFILES}\\OpenSceneGraph\\lib" CACHE PATH "OSG libraries")
+    SET(OPENAL_LIBRARIES "$ENV{PROGRAMFILES}\\OpenAL 1.1 SDK\\libs\\Win32" CACHE PATH "OpenAL libraries")
+    SET(FREEALUT_LIBRARIES "$ENV{PROGRAMFILES}\\freealut-1.1.0-bin\\lib" CACHE PATH "FreeALUT libraries")
 
 ELSE( WIN32 )
 
@@ -221,7 +221,7 @@ MESSAGE(STATUS "FreeALUT libraries: ${FREEALUT_LIBRARIES}")
 
 
 IF( WIN32 )
-    SET(OSG_BINARIES "C:\\Program Files\\OpenSceneGraph\\bin" CACHE PATH "OSG binaries")
+    SET(OSG_BINARIES "$ENV{PROGRAMFILES}\\OpenSceneGraph\\bin" CACHE PATH "OSG binaries")
     MESSAGE(STATUS "OSG binaries: ${OSG_BINARIES}")
 ENDIF( WIN32 )
 
