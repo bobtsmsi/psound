@@ -27,9 +27,15 @@
 #include <pSound/ALState>
 #include <pSound/ALError>
 
-#include <AL/alut.h>
-
 #include <osg/Notify>
+
+
+
+#ifdef WIN32
+    #include <alc.h>
+#else
+    #include <AL/alc.h>
+#endif
 /* ....................................................................... */
 /* ======================================================================= */
 
@@ -78,7 +84,26 @@ ALState::ALState(void)
 {
     osg::notify(osg::DEBUG_INFO) << "pSound::ALState: new instance => " << this << std::endl ;
 
-    PSOUND_CHECK_ERROR( alutInit(0, NULL) ) ;
+
+    ALCdevice*  device = alcOpenDevice(NULL) ;
+
+    if( device == NULL ) {
+        osg::notify(osg::FATAL) << "pSound::ALState: cannot open default device" << std::endl ;
+    }
+    else {
+        ALCcontext* context = alcCreateContext( device, NULL ) ;
+
+        if( ! context ) {
+            osg::notify(osg::FATAL) << "pSound::ALState: cannot create context" << std::endl ;
+        }
+        else {
+            alcMakeContextCurrent( context ) ;
+        }
+    }
+
+
+    // clear error code
+    alGetError() ;
 
 
     _loadDefaults(this) ;
@@ -107,7 +132,20 @@ ALState::~ALState(void)
 {
     osg::notify(osg::DEBUG_INFO) << "pSound::ALState: destroying instance => " << this << std::endl ;
 
-    PSOUND_CHECK_ERROR( alutExit() ) ;
+    ALCcontext* context = alcGetCurrentContext() ;
+
+    if( context ) {
+
+
+        ALCdevice*  device = alcGetContextsDevice( context ) ;
+
+        alcMakeContextCurrent( NULL ) ;
+        alcDestroyContext( context ) ;
+
+        if( device ) {
+            alcCloseDevice( device ) ;
+        }
+    }
 }
 /* ....................................................................... */
 /* ======================================================================= */

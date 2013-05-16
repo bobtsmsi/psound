@@ -21,7 +21,7 @@ identity matrix, so the Listener singleton should never be accessed.\n
 There are two examples in the "examples" folder.\n
 \n
 \n
-Requires OpenAL, freeALUT and OSG
+Requires OpenAL and OSG
 \n
 \n
 \n

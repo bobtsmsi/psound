@@ -142,14 +142,12 @@ ENDMACRO(PSOUND_SETUP_LIBRARY)
 
 MACRO(PSOUND_SETUP_PLUGIN)
 
-
-    IF( TARGET_SRC )
+    IF(TARGET_SRC)
 
         ADD_LIBRARY(    ${MODULE_NAME}
                         SHARED
                         ${TARGET_SRC}
         )
-
 
 
 
@@ -231,20 +229,19 @@ MACRO(PSOUND_SETUP_PLUGIN)
 
         ENDIF(NOT WIN32)
 
+    ENDIF(TARGET_SRC)
 
 
-        IF(ANDROID)
 
-            FOREACH(arg ${TARGET_SRC})
-                SET(MODULE_SRC_FILES "${MODULE_SRC_FILES} ${arg}\\\n                   ")
-            ENDFOREACH(arg ${TARGET_SRC})
+    IF(ANDROID)
 
-            CONFIGURE_FILE("${PSOUND_ANDROID_TEMPLATES}/Android.mk.library.in" "${CMAKE_CURRENT_BINARY_DIR}/Android.mk")
+        FOREACH(arg ${TARGET_SRC})
+            SET(MODULE_SRC_FILES "${MODULE_SRC_FILES} ${arg}\\\n                   ")
+        ENDFOREACH(arg ${TARGET_SRC})
 
-        ENDIF()
+        CONFIGURE_FILE("${PSOUND_ANDROID_TEMPLATES}/Android.mk.library.in" "${CMAKE_CURRENT_BINARY_DIR}/Android.mk")
 
-
-    ENDIF( TARGET_SRC )
+    ENDIF()
 
 
 ENDMACRO(PSOUND_SETUP_PLUGIN)

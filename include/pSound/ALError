@@ -63,7 +63,7 @@ extern OSG_EXPORT ALenum
 ALGetError(void) ;
 
 
-//! Returns a NULL-ending string representing the symbolic constant al_error
+//! Returns a NULL-ending string representing the symbolic constant
 extern OSG_EXPORT const char*
 ALGetErrorString(ALenum al_error) ;
 
