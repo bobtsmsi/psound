@@ -38,8 +38,6 @@
     #include <AL/alc.h>
 #endif
 
-#include <AL/alut.h>
-
 
 #include <osg/Notify>
 #include <osg/io_utils>

@@ -55,7 +55,7 @@ namespace pSound
 
 /* ======================================================================= */
 /* ....................................................................... */
-//! The constructor calls alutInit. It's a singleton
+//! The constructor open the default device and creates a context
 /*!
  */
 class OSG_EXPORT ALState: public osg::Object
