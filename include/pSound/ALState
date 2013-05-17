@@ -55,8 +55,11 @@ namespace pSound
 
 /* ======================================================================= */
 /* ....................................................................... */
-//! The constructor open the default device and creates a context
+//! The constructor open sthe default device and creates a context
 /*!
+ * If you're on Windows, remember to call ALState::instance from the main
+ * thread before using the serializer. It seems that every call to alc*
+ * stalls if you don't do that
  */
 class OSG_EXPORT ALState: public osg::Object
 {
@@ -166,6 +169,15 @@ public:
 
     //! Default: 1.0f
     inline float    getDopplerFactor(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    void		_initAL(void) ;
+	void		_deinitAL(void) ;
 /* ======================================================================= */
 
 

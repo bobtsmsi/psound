@@ -1,4 +1,5 @@
 #include <pSound/Source>
+#include <pSound/ALState>
 
 #include <osg/Geode>
 #include <osg/ShapeDrawable>
@@ -18,6 +19,13 @@ using namespace pSound ;
 int
 main(int argc, char** argv)
 {
+	//
+	// [0] Create a context immediately. This is mandatory on Winzows
+	//
+	ALState::instance() ;
+
+
+
     //
     // [1] Read the buffer
     //
