@@ -1,5 +1,5 @@
 /*!
- * @file Serializer_Buffer.cpp
+ * @file Buffer_Serializer.cpp
  * @author Rocco Martino
  */
 /***************************************************************************
