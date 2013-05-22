@@ -93,11 +93,12 @@ using namespace pSound ;
 /* ======================================================================= */
 /* ....................................................................... */
 Source::Source(void):
-    m_source( 0 ),
-    m_auto_play( false ),
-    m_auto_compute_velocity( true ),
-    m_last_traversal_number( 0 ),
-    m_last_simulation_time( 0.0 ),
+    m_source                ( 0 ),
+    m_auto_play             ( false ),
+    m_auto_compute_velocity ( true ),
+    m_last_traversal_number ( 0 ),
+    m_last_simulation_time  ( 0.0 ),
+    m_direction             ( -osg::Z_AXIS ),
     m_velocity_mixing_factor( 1 )
 {
     setCullingActive(false) ;
@@ -117,14 +118,15 @@ Source::Source(void):
 /* ======================================================================= */
 /* ....................................................................... */
 Source::Source(const Source& other, const osg::CopyOp& copyop):
-    osg::Node( other, copyop ),
-    m_source( 0 ),
-    m_auto_play( other.m_auto_play ),
-    m_auto_compute_velocity( other.m_auto_compute_velocity ),
-    m_last_traversal_number( other.m_last_traversal_number ),
-    m_last_simulation_time( other.m_last_simulation_time ),
-    m_position( other.m_position ),
-    m_dsdt( other.m_dsdt ),
+    osg::Node               ( other, copyop ),
+    m_source                ( 0 ),
+    m_auto_play             ( other.m_auto_play ),
+    m_auto_compute_velocity ( other.m_auto_compute_velocity ),
+    m_last_traversal_number ( other.m_last_traversal_number ),
+    m_last_simulation_time  ( other.m_last_simulation_time ),
+    m_position              ( other.m_position ),
+    m_direction             ( other.m_direction ),
+    m_dsdt                  ( other.m_dsdt ),
     m_velocity_mixing_factor( other.m_velocity_mixing_factor )
 {
     PSOUND_CHECK_ERROR( alGenSources(1, &m_source) ) ;
@@ -223,6 +225,7 @@ Source::_update(osgUtil::CullVisitor* cv)
 
 
     const osg::Vec3 position = m_position * *cv->getModelViewMatrix() ;
+    const osg::Vec3 direction = osg::Matrix::transform3x3( m_direction, *cv->getModelViewMatrix() ) ;
 
 
 
@@ -253,9 +256,8 @@ Source::_update(osgUtil::CullVisitor* cv)
 
 
 
-
-
     this->setParam( POSITION, position ) ;
+    this->setParam( DIRECTION, direction ) ;
 }
 /* ....................................................................... */
 /* ======================================================================= */
