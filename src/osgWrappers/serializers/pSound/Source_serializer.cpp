@@ -138,6 +138,7 @@ REGISTER_OBJECT_WRAPPER( Source,
     ADD_USER_SERIALIZER(DIRECTION) ;
 
     ADD_VEC3_SERIALIZER(Position, osg::Vec3()) ;
+    ADD_VEC3_SERIALIZER(Direction, -osg::Z_AXIS) ;
 
     ADD_USER_SERIALIZER(Buffer) ;
 }

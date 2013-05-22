@@ -246,6 +246,15 @@ public:
 
     //! Get the position in local coordinates
     inline const osg::Vec3& getPosition(void) const ;
+
+
+
+
+    //! Set the direction in local coordinates. Default: -Z
+    inline void             setDirection(const osg::Vec3& direction) ;
+
+    //! Get the direction in local coordinates. Default: -Z
+    inline const osg::Vec3& getDirection(void) const ;
 /* ======================================================================= */
 
 
@@ -299,6 +308,8 @@ private:
     double          m_last_simulation_time ;
 
     osg::Vec3       m_position ;
+    osg::Vec3       m_direction ;
+
     osg::Vec3       m_dsdt ;
 
     double          m_velocity_mixing_factor ;
