@@ -8,7 +8,7 @@ includedir=${prefix}/include
 Name: pSound
 Description: Description here
 Version: @PSOUND_VERSION@
-Requires: openscenegraph-osg osgODE
+Requires: openscenegraph-osg
 Conflicts:
 Libs: -L${libdir} -lpSound
 Cflags: -I${includedir}
