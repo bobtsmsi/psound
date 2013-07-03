@@ -10,6 +10,6 @@ SET(TARGET_SRC
 
 
 
-SET(MODULE_LINK_LIBRARIES_WIN "osgDB osg OpenThreads opengl32 OpenAL32 pSound")
+SET(MODULE_LINK_LIBRARIES_WIN "libogg libvorbis libvorbisfile osgDB osg OpenThreads opengl32 OpenAL32 pSound")
 
 PSOUND_SETUP_PLUGIN()

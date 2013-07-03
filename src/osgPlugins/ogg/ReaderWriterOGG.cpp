@@ -164,11 +164,16 @@ public:
                 data->setNumChannels( vinfo->channels ) ;
                 data->setFrequency( vinfo->rate ) ;
 
+				buf_size = BUFFER_SIZE ;
+                buf = (char*) realloc(buf, buf_size) ;
+
                 do {
+
                     if( buf_size - total_bytes < BUFFER_SIZE ) {
-                        buf_size += BUFFER_SIZE ;
+                        buf_size *= 2 ;
                         buf = (char*) realloc(buf, buf_size) ;
                     }
+
 
                     bytes = ov_read(&ofile, &buf[total_bytes], BUFFER_SIZE, OGG_LITTLE_ENDIAN, 2, 1, &bit_stream) ;
                     total_bytes += bytes ;
@@ -180,7 +185,6 @@ public:
             }
 
             data->setSoundFileName( file_name ) ;
-
 
             return data ;
         }
