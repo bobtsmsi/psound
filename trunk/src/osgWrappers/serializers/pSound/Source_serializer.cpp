@@ -94,7 +94,7 @@ static bool readBuffer(osgDB::InputStream& is, pSound::Source& source)
 
     if(buffer) {
         if( ! is.isBinary() ) {
-            buffer = dynamic_cast<pSound::Buffer*>( osgDB::readObjectFile( buffer->getSoundFileName() ) ) ;
+            buffer = dynamic_cast<pSound::Buffer*>( osgDB::readObjectFile( buffer->getSoundFileName(), is.getOptions() ) ) ;
         }
     }
 
