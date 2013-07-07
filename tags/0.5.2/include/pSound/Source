@@ -1,0 +1,334 @@
+/*!
+ * @file Source
+ * @author Rocco Martino
+ */
+/***************************************************************************
+ *   Copyright (C) 2010 - 2013 by Rocco Martino                            *
+ *   martinorocco@gmail.com                                                *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU Lesser General Public License for more details.                   *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+#ifndef _PSOUND_SOURCE_HPP
+#define _PSOUND_SOURCE_HPP
+
+
+
+
+/* ======================================================================= */
+#include <pSound/Buffer>
+
+#include <osg/Node>
+#include <osg/NodeVisitor>
+#include <osg/Timer>
+
+#include <string>
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+namespace osgUtil {
+    class   CullVisitor ;
+}
+/* ======================================================================= */
+
+
+
+
+namespace pSound
+{
+
+
+
+
+/* ======================================================================= */
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+/* ....................................................................... */
+//! A source. Buffer queuing not yet supported
+/*!
+ * A Source computes its transformation in eye coord during Source::traverse
+ */
+class OSG_EXPORT Source: public osg::Node
+{
+/* ======================================================================= */
+public:
+             Source(void) ;
+             Source(const Source& other, const osg::CopyOp& copyop=osg::CopyOp::SHALLOW_COPY) ;
+
+protected:
+    virtual ~Source(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    META_Node(pSound, Source) ;
+
+    virtual void        traverse(osg::NodeVisitor& nv) ;
+/* ======================================================================= */
+
+
+
+
+
+
+
+
+
+/* ======================================================================= */
+public:
+    //! Set the buffer
+    bool                    setBuffer(Buffer* data) ;
+
+
+    //! Get the buffer
+    inline Buffer*          getBuffer(void) ;
+
+
+    //! Get the const buffer
+    inline const Buffer*    getBuffer(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    //! The stream will start during next traverse. Default: false
+    inline bool     getAutoPlay(void) const ;
+
+
+    //! The stream will start during next traverse. Default: false
+    /*!
+     * @note Source autoplay needs a better implementation
+     */
+    inline void     setAutoPlay(bool flag) ;
+
+
+
+    //! Play
+    void        play(void) ;
+
+    //! Stop
+    void        stop(void) ;
+
+
+    //! Returns whether the source is playing or not
+    bool        isPlaying(void) const ;
+/* ======================================================================= */
+
+
+
+
+
+
+
+
+
+/* ======================================================================= */
+public:
+    typedef enum {
+        //! Default: 1.0f
+        PITCH = AL_PITCH,
+
+        //! Default: 1.0f
+        GAIN = AL_GAIN,
+
+        //! Default: FLT_MAX
+        MAX_DISTANCE = AL_MAX_DISTANCE,
+
+        //! Default: 1.0f
+        ROLLOFF_FACTOR = AL_ROLLOFF_FACTOR,
+        
+        //! Default: 1.0f
+        REFERENCE_DISTANCE = AL_REFERENCE_DISTANCE,
+
+        //! Default: 0.0f
+        MIN_GAIN = AL_MIN_GAIN,
+
+        //! Default: 1.0f
+        MAX_GAIN = AL_MAX_GAIN,
+
+        //! Default: 0.0f
+        CONE_OUTER_GAIN = AL_CONE_OUTER_GAIN,
+
+        //! Default: 360.0f
+        CONE_INNER_ANGLE = AL_CONE_INNER_ANGLE,
+
+        //! Default: 360.0f
+        CONE_OUTER_ANGLE = AL_CONE_OUTER_ANGLE,
+
+        //! Playback position in seconds
+        SEC_OFFSET = AL_SEC_OFFSET
+    } FloatParam ;
+
+
+
+    //! alSourcef
+    void        setParam(FloatParam param, float val) ;
+
+    //! alGetSourcef
+    float       getParam(FloatParam param) const ;
+
+
+
+
+
+
+    typedef enum {
+        //! Default: [0.0f, 0.0f, 0.0f]
+        /*!
+         * This parameter is calculated automatically and should not be used.\n
+         * Use setPosition instead
+         */
+        POSITION = AL_POSITION,
+
+        //! Default: [0.0f, 0.0f, 0.0f]
+        /*!
+         * This parameter is calculated automatically and should not be used
+         */
+        VELOCITY = AL_VELOCITY,
+
+        //! Default: [0.0f, 0.0f, 0.0f]
+        DIRECTION = AL_DIRECTION
+    } Vec3fParam ;
+
+
+
+    //! alSource3f
+    void        setParam(Vec3fParam param, const osg::Vec3& val) ;
+
+    //! alGetSource3f
+    osg::Vec3   getParam(Vec3fParam param) const ;
+
+
+
+
+    typedef enum {
+        //! Default: AL_FALSE
+        LOOPING = AL_LOOPING
+    } IntParam ;
+
+
+    //! alSourcei
+    void        setParam(IntParam param, int val) ;
+
+    //! alGetSourcei
+    int         getParam(IntParam param) const ;
+
+
+
+
+    //! Set the position in local coordinates
+    inline void             setPosition(const osg::Vec3& position) ;
+
+    //! Get the position in local coordinates
+    inline const osg::Vec3& getPosition(void) const ;
+
+
+
+
+    //! Set the direction in local coordinates. Default: -Z
+    inline void             setDirection(const osg::Vec3& direction) ;
+
+    //! Get the direction in local coordinates. Default: -Z
+    inline const osg::Vec3& getDirection(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    //! Set wheter the velocity has to be calculated during the traverse
+    inline void     setAutoComputeVelocity(bool flag) ;
+
+    //! Get wheter the velocity is calculated during the traverse
+    inline bool     getAutoComputeVelocity(void) const ;
+
+    //! Resulting velocity is: old_vel * (1 - factor) + new_vel * factor.  Default: 1
+    inline void     setVelocityMixingFactor( double factor ) ;
+
+    //! Resulting velocity is: old_vel * (1 - factor) + new_vel * factor.  Default: 1
+    inline double   getVelocityMixingFactor(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    void        _update(osgUtil::CullVisitor* cv) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    static void     _loadDefaults(Source* source) ;
+    static void     _copyParameters(Source* dst, const Source* src) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    ALuint      m_source ;
+
+    osg::ref_ptr<Buffer>    m_buffer ;
+
+    bool            m_auto_play ;
+    bool            m_auto_compute_velocity ;
+
+    unsigned int    m_last_traversal_number ;
+    double          m_last_simulation_time ;
+
+    osg::Vec3       m_position ;
+    osg::Vec3       m_direction ;
+
+    osg::Vec3       m_dsdt ;
+
+    double          m_velocity_mixing_factor ;
+/* ======================================================================= */
+} ;
+/* ....................................................................... */
+/* ======================================================================= */
+
+
+
+
+} // namespace pSound
+
+
+
+
+#include "Source.inl"
+
+
+
+
+#endif /* _PSOUND_SOURCE_HPP */

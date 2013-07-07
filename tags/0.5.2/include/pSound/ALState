@@ -1,0 +1,222 @@
+/*!
+ * @file ALState
+ * @author Rocco Martino
+ */
+/***************************************************************************
+ *   Copyright (C) 2010 - 2013 by Rocco Martino                            *
+ *   martinorocco@gmail.com                                                *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU Lesser General Public License for more details.                   *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+#ifndef _PSOUND_ALSTATE_HPP
+#define _PSOUND_ALSTATE_HPP
+
+
+
+
+/* ======================================================================= */
+#include <osg/Object>
+
+#ifdef WIN32
+    #include <al.h>
+#else
+    #include <AL/al.h>
+#endif
+/* ======================================================================= */
+
+
+
+
+namespace pSound
+{
+
+
+
+
+/* ======================================================================= */
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+/* ....................................................................... */
+//! The constructor open sthe default device and creates a context
+/*!
+ * If you're on Windows, remember to call ALState::instance from the main
+ * thread before using the serializer. It seems that every call to alc*
+ * stalls if you don't do that
+ */
+class OSG_EXPORT ALState: public osg::Object
+{
+/* ======================================================================= */
+protected:
+             ALState(void) ;
+             ALState(const ALState& other, const osg::CopyOp& copyop=osg::CopyOp::SHALLOW_COPY) ;
+
+protected:
+    virtual ~ALState(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    META_Object(pSound, ALState) ;
+/* ======================================================================= */
+
+
+
+
+
+
+
+
+
+/* ======================================================================= */
+public:
+    typedef enum {
+        /*!
+         * No attenuation
+         */
+        NONE = AL_NONE,
+
+        /*!
+         * gain =                           REFERENCE_DISTANCE /
+         *          ( REFERENCE_DISTANCE + ROLLOF_FACTOR * (distance - REFERENCE_DISTANCE) )
+         */
+        INVERSE_DISTANCE = AL_INVERSE_DISTANCE,
+
+
+        /*!
+         * distance = clamp(distance, REFERENCE_DISTANCE, MAX_DISTANCE) \n
+         * \n
+         * gain =                           REFERENCE_DISTANCE /
+         *          ( REFERENCE_DISTANCE + ROLLOF_FACTOR * (distance - REFERENCE_DISTANCE) )
+         */
+        INVERSE_DISTANCE_CLAMPED = AL_INVERSE_DISTANCE_CLAMPED,
+
+
+        /*!
+         * distance = min(distance, MAX_DISTANCE) \n
+         * \n
+         * gain =   ( 1 - ROLLOFF_FACTOR * ( distance - REFERENCE_DISTANCE ) ) /
+         *                  ( MAX_DISTANCE - REFERENCE_DISTANCE )
+         */
+        LINEAR_DISTANCE = AL_LINEAR_DISTANCE,
+
+
+        /*!
+         * distance = clamp(distance, REFERENCE_DISTANCE, MAX_DISTANCE) \n
+         * \n
+         * gain =   ( 1 - ROLLOFF_FACTOR * ( distance - REFERENCE_DISTANCE ) ) /
+         *                  ( MAX_DISTANCE - REFERENCE_DISTANCE )
+         */
+        LINEAR_DISTANCE_CLAMPED = AL_LINEAR_DISTANCE_CLAMPED,
+
+
+        /*!
+         * gain =   ( distance / REFERENCE_DISTANCE ) ^ ( - ROLLOFF_FACTOR )
+         */
+        EXPONENT_DISTANCE = AL_EXPONENT_DISTANCE,
+
+
+        /*!
+         * distance = clamp(distance, REFERENCE_DISTANCE, MAX_DISTANCE) \n
+         * \n
+         * gain =   ( distance / REFERENCE_DISTANCE ) ^ ( - ROLLOFF_FACTOR )
+         */
+        EXPONENT_DISTANCE_CLAMPED = AL_EXPONENT_DISTANCE_CLAMPED
+    } DistanceModel ;
+
+
+    //! Default: EXPONENT_DISTANCE_CLAMPED
+    inline void     setDistanceModel(DistanceModel model) ;
+
+    inline DistanceModel    getDistanceModel(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    //! Default: 343.3f
+    inline void     setSpeedOfSound(float speed) ;
+
+    //! Default: 1.0f
+    inline float    getSpeedOfSound(void) const ;
+
+
+
+    //! Default: 1.0f
+    inline void     setDopplerFactor(float doppler_factor) ;
+
+    //! Default: 1.0f
+    inline float    getDopplerFactor(void) const ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    void		_initAL(void) ;
+	void		_deinitAL(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+public:
+    static ALState*     instance(void) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+    static void         _loadDefaults(ALState* state) ;
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+private:
+/* ======================================================================= */
+} ;
+/* ....................................................................... */
+/* ======================================================================= */
+
+
+
+
+} // namespace pSound
+
+
+
+
+#include "ALState.inl"
+
+
+
+
+#endif /* _PSOUND_ALSTATE_HPP */
