@@ -95,6 +95,7 @@ using namespace pSound ;
 Source::Source(void):
     m_source                ( 0 ),
     m_auto_play             ( false ),
+    m_auto_compute_position ( COMPUTE_BY_MODELVIEW ),
     m_auto_compute_velocity ( true ),
     m_last_traversal_number ( 0 ),
     m_last_simulation_time  ( 0.0 ),
@@ -121,6 +122,7 @@ Source::Source(const Source& other, const osg::CopyOp& copyop):
     osg::Node               ( other, copyop ),
     m_source                ( 0 ),
     m_auto_play             ( other.m_auto_play ),
+    m_auto_compute_position ( other.m_auto_compute_position ),
     m_auto_compute_velocity ( other.m_auto_compute_velocity ),
     m_last_traversal_number ( other.m_last_traversal_number ),
     m_last_simulation_time  ( other.m_last_simulation_time ),
@@ -219,13 +221,33 @@ Source::_update(osgUtil::CullVisitor* cv)
 
 
 
+    osg::Vec3   position, direction ;
 
 
 
+    const osg::Matrix&  view_matrix = cv->getCurrentCamera()->getViewMatrix() ;
+    const osg::Matrix&  modelview_matrix = *cv->getModelViewMatrix() ;
 
 
-    const osg::Vec3 position = m_position * *cv->getModelViewMatrix() ;
-    const osg::Vec3 direction = osg::Matrix::transform3x3( m_direction, *cv->getModelViewMatrix() ) ;
+    switch( m_auto_compute_position )
+    {
+        case DO_NOT_COMPUTE:
+            position = m_position ;
+            direction = m_direction ;
+        break ;
+
+
+        case COMPUTE_BY_VIEW:
+            position = m_position * view_matrix ;
+            direction = osg::Matrix::transform3x3( m_direction, view_matrix ) ;
+        break ;
+
+
+        case COMPUTE_BY_MODELVIEW:
+            position = m_position * modelview_matrix ;
+            direction = osg::Matrix::transform3x3( m_direction, modelview_matrix ) ;
+        break ;
+    }
 
 
 

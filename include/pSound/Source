@@ -3,7 +3,7 @@
  * @author Rocco Martino
  */
 /***************************************************************************
- *   Copyright (C) 2010 - 2013 by Rocco Martino                            *
+ *   Copyright (C) 2010 - 2014 by Rocco Martino                            *
  *   martinorocco@gmail.com                                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -125,6 +125,26 @@ public:
      * @note Source autoplay needs a better implementation
      */
     inline void     setAutoPlay(bool flag) ;
+
+
+
+    typedef enum {
+        //! The position is the same as returned by getPosition()
+        DO_NOT_COMPUTE,
+
+        //! Transform the position by the view matrix
+        COMPUTE_BY_VIEW,
+
+        //! Transform the position by the modelview. This is the default
+        COMPUTE_BY_MODELVIEW
+    } AutoComputePosition ;
+
+
+    //! Set the auto compute position
+    inline void setAutoComputePosition( AutoComputePosition auto_compute_position ) ;
+
+    //! Get the const auto compute position
+    inline AutoComputePosition getAutoComputePosition(void) const ;
 
 
 
@@ -301,8 +321,9 @@ private:
 
     osg::ref_ptr<Buffer>    m_buffer ;
 
-    bool            m_auto_play ;
-    bool            m_auto_compute_velocity ;
+    bool                m_auto_play ;
+    AutoComputePosition m_auto_compute_position ;
+    bool                m_auto_compute_velocity ;
 
     unsigned int    m_last_traversal_number ;
     double          m_last_simulation_time ;
