@@ -3,7 +3,7 @@
  * @author Rocco Martino
  */
 /***************************************************************************
- *   Copyright (C) 2012 - 2013 by Rocco Martino                            *
+ *   Copyright (C) 2012 - 2014 by Rocco Martino                            *
  *   martinorocco@gmail.com                                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -139,6 +139,12 @@ REGISTER_OBJECT_WRAPPER( Source,
 
     ADD_VEC3_SERIALIZER(Position, osg::Vec3()) ;
     ADD_VEC3_SERIALIZER(Direction, -osg::Z_AXIS) ;
+
+    BEGIN_ENUM_SERIALIZER( AutoComputePosition, COMPUTE_BY_MODELVIEW ) ;
+        ADD_ENUM_VALUE( DO_NOT_COMPUTE ) ;
+        ADD_ENUM_VALUE( COMPUTE_BY_VIEW ) ;
+        ADD_ENUM_VALUE( COMPUTE_BY_MODELVIEW ) ;
+    END_ENUM_SERIALIZER() ;
 
     ADD_USER_SERIALIZER(Buffer) ;
 }

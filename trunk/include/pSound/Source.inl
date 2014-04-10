@@ -3,7 +3,7 @@
  * @author Rocco Martino
  */
 /***************************************************************************
- *   Copyright (C) 2010 - 2012 by Rocco Martino                            *
+ *   Copyright (C) 2010 - 2014 by Rocco Martino                            *
  *   martinorocco@gmail.com                                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -182,6 +182,32 @@ inline double
 pSound::Source::getVelocityMixingFactor(void) const
 {
     return m_velocity_mixing_factor ;
+}
+/* ....................................................................... */
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+/* ....................................................................... */
+inline void
+pSound::Source::setAutoComputePosition( AutoComputePosition auto_compute_position )
+{
+    m_auto_compute_position = auto_compute_position ;
+}
+/* ....................................................................... */
+/* ======================================================================= */
+
+
+
+
+/* ======================================================================= */
+/* ....................................................................... */
+inline pSound::Source::AutoComputePosition
+pSound::Source::getAutoComputePosition(void) const
+{
+    return m_auto_compute_position ;
 }
 /* ....................................................................... */
 /* ======================================================================= */
