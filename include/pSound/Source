@@ -181,7 +181,7 @@ public:
 
         //! Default: 1.0f
         ROLLOFF_FACTOR = AL_ROLLOFF_FACTOR,
-        
+
         //! Default: 1.0f
         REFERENCE_DISTANCE = AL_REFERENCE_DISTANCE,
 

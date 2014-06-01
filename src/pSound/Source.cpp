@@ -138,8 +138,9 @@ Source::Source(const Source& other, const osg::CopyOp& copyop):
     m_buffer = other.m_buffer ;
 
 
-
-    PSOUND_CHECK_ERROR( alSourcei(m_source, AL_BUFFER, m_buffer->getBuffer()) ) ;
+    if( m_buffer.valid() ) {
+        setBuffer( other.m_buffer ) ;
+    }
 
 
 
@@ -211,7 +212,7 @@ Source::_update(osgUtil::CullVisitor* cv)
                 // Set auto_play to false once started, but this solution
                 // generates issues that I have not well evaluated yet
 
-                m_auto_play = false ;
+//                 m_auto_play = false ;
 
                 play() ;
 
