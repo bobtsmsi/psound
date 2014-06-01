@@ -118,6 +118,13 @@ REGISTER_OBJECT_WRAPPER( Source,
                          "osg::Object osg::Node pSound::Source" )
 {
     ADD_BOOL_SERIALIZER(AutoPlay, false) ;
+
+    BEGIN_ENUM_SERIALIZER( AutoComputePosition, COMPUTE_BY_MODELVIEW ) ;
+        ADD_ENUM_VALUE( DO_NOT_COMPUTE ) ;
+        ADD_ENUM_VALUE( COMPUTE_BY_VIEW ) ;
+        ADD_ENUM_VALUE( COMPUTE_BY_MODELVIEW ) ;
+    END_ENUM_SERIALIZER() ;
+
     ADD_BOOL_SERIALIZER(AutoComputeVelocity, true) ;
     ADD_DOUBLE_SERIALIZER(VelocityMixingFactor, 1.0) ;
 
@@ -139,12 +146,6 @@ REGISTER_OBJECT_WRAPPER( Source,
 
     ADD_VEC3_SERIALIZER(Position, osg::Vec3()) ;
     ADD_VEC3_SERIALIZER(Direction, -osg::Z_AXIS) ;
-
-    BEGIN_ENUM_SERIALIZER( AutoComputePosition, COMPUTE_BY_MODELVIEW ) ;
-        ADD_ENUM_VALUE( DO_NOT_COMPUTE ) ;
-        ADD_ENUM_VALUE( COMPUTE_BY_VIEW ) ;
-        ADD_ENUM_VALUE( COMPUTE_BY_MODELVIEW ) ;
-    END_ENUM_SERIALIZER() ;
 
     ADD_USER_SERIALIZER(Buffer) ;
 }
