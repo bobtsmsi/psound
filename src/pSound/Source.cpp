@@ -69,7 +69,7 @@
     ALClearError() ; \
     (void) FN ; \
 /*    PS_ASSERT(ALCheckError(#FN)) ; */ \
-    ALCheckError(#FN) ; \
+    ALCheckError(#FN, __FILE__, __LINE__) ; \
 }
 
 #else
