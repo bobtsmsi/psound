@@ -70,7 +70,7 @@ ALGetErrorString(ALenum al_error) ;
 
 //! Notify the error through osg::notify(osg::FATAL)
 extern OSG_EXPORT bool
-ALCheckError(const char* message) ;
+ALCheckError(const char* message, const char* file=NULL, unsigned int line=0) ;
 /* ....................................................................... */
 /* ======================================================================= */
 

@@ -91,12 +91,16 @@ pSound::ALGetErrorString(ALenum al_error)
 /* ======================================================================= */
 /* ....................................................................... */
 bool
-pSound::ALCheckError(const char* message)
+pSound::ALCheckError(const char* message, const char* file, unsigned int line)
 {
     ALenum  error = ALGetError() ;
 
     if( error != AL_NO_ERROR ) {
-        osg::notify(osg::FATAL) << "OpenAL error: " << ALGetErrorString(error) << " after " << message << std::endl ;
+        if( file ) {
+            osg::notify(osg::FATAL) << file << ":" << line << " : " << ALGetErrorString(error) << " after " << message << std::endl ;
+        } else {
+            osg::notify(osg::FATAL) << ALGetErrorString(error) << " after " << message << std::endl ;
+        }
         return false ;
     }
 
