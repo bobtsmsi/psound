@@ -101,10 +101,23 @@ public:
                 const int   buf_size = 1024 * 10 ;
                 char        buf[buf_size] ;
 
+                fin.seekg(0, std::ios::end) ;
+                unsigned int  size = fin.tellg() ;
                 fin.seekg(0, std::ios::beg) ;
-                while( ! fin.eof() ) {
+
+
+                {
+                    unsigned int    aaa = size % buf_size ;
+                    fin.read(buf, aaa) ;
+                    fwrite(buf, 1, aaa, tmp) ;
+                    size -= aaa ;
+                }
+
+
+                while( size != 0 ) {
                     fin.read(buf, buf_size) ;
                     fwrite(buf, 1, buf_size, tmp) ;
+                    size -= buf_size ;
                 }
             }
 
@@ -147,7 +160,7 @@ public:
 
                 vorbis_info*        vinfo ;
                 OggVorbis_File      ofile ;
-                int                 bit_stream ;
+                int                 bit_stream = 0 ;
 
                 ov_open(infile, &ofile, NULL, 0) ;
 
