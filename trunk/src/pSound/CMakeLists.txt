@@ -44,6 +44,6 @@ ENDIF( WIN32 )
 
 
 SET( MODULE_LINK_LIBRARIES_GNU "osgDB openal vorbisfile" )
-SET( MODULE_LINK_LIBRARIES_WIN "osgDB osg OpenThreads opengl32 OpenAL32" )
+SET( MODULE_LINK_LIBRARIES_WIN "osgUtil osgDB osg OpenThreads opengl32 OpenAL32" )
 
 PSOUND_SETUP_LIBRARY()
